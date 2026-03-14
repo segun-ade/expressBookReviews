@@ -45,6 +45,7 @@ public_users.get('/',function (req, res) {
   //Write your code here
   let myPromise = new Promise((resolve,reject) => {
     resolve(JSON.stringify(books,null,4))
+    if(err) reject(err);
   })
   myPromise.then((success) => {
     return res.status(300).json({message: success});
@@ -62,6 +63,11 @@ public_users.get('/isbn/:isbn',function (req, res) {
   const isbn = req.params.isbn;
   let myPromise = new Promise((resolve,reject) => {
     resolve(books[isbn])
+    if(books[isbn]){
+        resolve(books[isbn]);
+    }else{
+        reject("No books found!");
+    }
   })
   myPromise.then((success) => {
     return res.status(300).json({message: success});
@@ -85,7 +91,11 @@ public_users.get('/author/:author',function (req, res) {
                 filtered_books = books[isbn];
             }
         });
-        resolve(filtered_books)
+        if(filtered_books){
+            resolve(filtered_books);
+        }else{
+            reject("No books found!");
+        }
       })
       myPromise.then((success) => {
         return res.status(300).json({message: success});
@@ -112,7 +122,11 @@ public_users.get('/title/:title',function (req, res) {
                 filtered_books = books[isbn];
             }
         });
-        resolve(filtered_books)
+        if(filtered_books){
+            resolve(filtered_books);
+        }else{
+            reject("No books found!");
+        }
       })
       myPromise.then((success) => {
         return res.status(300).json({message: success});
