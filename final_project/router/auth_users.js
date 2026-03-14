@@ -45,7 +45,7 @@ regd_users.post("/login", (req,res) => {
       req.session.authorization = {
           accessToken, username
       }
-      return res.status(300).json({message: "User successfully logged in"});
+      return res.status(300).json({message: "User successfully logged in" + req.session.authorization.accessToken + ", " + req.session.authorization.username});
   } else {
       return res.status(208).json({ message: "Invalid Login. Check username and password" });
   }
@@ -54,8 +54,42 @@ regd_users.post("/login", (req,res) => {
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+    // Extract username and review parameters from request URL
+    const isbn = req.params.isbn;
+    const username = 'user126';//req.authorization.username;
+    const review = req.query.review;
+    let book = books[isbn];  // Retrieve book object associated with isbn
+    
+    if (book) {  // Check if friend exists
+        // Update review if provided in request body
+        if (review) {
+            books[isbn].reviews[username]=review;
+            return res.status(300).json({message: `Book review with the isbn ${isbn} updated for user: ${username}.`});
+        }
+        return res.status(300).json({message: 'No review was provided!'});
+    } else {
+        // Respond if friend with specified email is not found
+        res.send("Unable to find specified book!");
+    }
 });
+
+// Delete a book review
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    //Write your code here
+      // Extract username and review parameters from request URL
+      const isbn = req.params.isbn;
+      const username = 'user126';//req.session.authorization.username;
+      let book = books[isbn];  // Retrieve book object associated with isbn
+      
+      if (book) {  // Check if friend exists
+          // Update review if provided in request body
+              delete books[isbn].reviews.username;
+              return res.status(404).json({message: `Book review with the isbn ${isbn} for user ${username} deleted.`});
+      } else {
+          // Respond if friend with specified email is not found
+          res.send("Unable to find specified book!");
+      }
+  });
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
