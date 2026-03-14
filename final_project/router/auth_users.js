@@ -64,7 +64,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
         // Update review if provided in request body
         if (review) {
             books[isbn].reviews[username]=review;//{"message":"Review added/updated successfully","reviews":{"newuser":"Great book!"}}
-            return res.status(300).json({message: "Review added/updated successfully", reviews:{username:review}});
+            return res.status(300).json({message: "Review added/updated successfully", reviews:{user123:review}});
         }
         return res.status(300).json({message: 'No review was provided!'});
     } else {
