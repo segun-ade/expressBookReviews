@@ -46,8 +46,11 @@ public_users.get('/',function (req, res) {
   let myPromise = new Promise((resolve,reject) => {
     resolve(JSON.stringify(books,null,4))
   })
-  myPromise.then((books_list) => {
-    return res.status(300).json({message: books_list});
+  myPromise.then((success) => {
+    return res.status(300).json({message: success});
+  })
+  .catch((err) => {
+    return res.status(500).json({message: err});
   })
   //return res.status(300).json({message: JSON.stringify(books,null,4)});
   //res.send(JSON.stringify(books,null,4))
@@ -60,8 +63,11 @@ public_users.get('/isbn/:isbn',function (req, res) {
   let myPromise = new Promise((resolve,reject) => {
     resolve(books[isbn])
   })
-  myPromise.then((selected_book) => {
-    return res.status(300).json({message: selected_book});
+  myPromise.then((success) => {
+    return res.status(300).json({message: success});
+  })
+  .catch((err) => {
+    return res.status(500).json({message: err});
   })
   //return res.status(300).json({message: books[isbn]});
  });
@@ -81,8 +87,11 @@ public_users.get('/author/:author',function (req, res) {
         });
         resolve(filtered_books)
       })
-      myPromise.then((selected_book) => {
-        return res.status(300).json({message: selected_book});
+      myPromise.then((success) => {
+        return res.status(300).json({message: success});
+      })
+      .catch((err) => {
+        return res.status(500).json({message: err});
       })
     // Filter the books dictionary to find books whose author matches the extracted author parameter
 
@@ -105,8 +114,11 @@ public_users.get('/title/:title',function (req, res) {
         });
         resolve(filtered_books)
       })
-      myPromise.then((selected_book) => {
-        return res.status(300).json({message: selected_book});
+      myPromise.then((success) => {
+        return res.status(300).json({message: success});
+      })
+      .catch((err) => {
+        return res.status(500).json({message: err});
       })
     // Filter the books dictionary to find books whose author matches the extracted author parameter
 

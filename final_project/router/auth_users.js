@@ -45,7 +45,7 @@ regd_users.post("/login", (req,res) => {
       req.session.authorization = {
           accessToken, username
       }
-      return res.status(300).json({message: "User successfully logged in" + req.session.authorization.accessToken + ", " + req.session.authorization.username});
+      return res.status(300).json({message: "Login successful!"});
   } else {
       return res.status(208).json({ message: "Invalid Login. Check username and password" });
   }
@@ -63,8 +63,8 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     if (book) {  // Check if friend exists
         // Update review if provided in request body
         if (review) {
-            books[isbn].reviews[username]=review;
-            return res.status(300).json({message: `Book review with the isbn ${isbn} updated for user: ${username}.`});
+            books[isbn].reviews[username]=review;//{"message":"Review added/updated successfully","reviews":{"newuser":"Great book!"}}
+            return res.status(300).json({message: "Review added/updated successfully", reviews:{username:review}});
         }
         return res.status(300).json({message: 'No review was provided!'});
     } else {
@@ -84,7 +84,7 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
       if (book) {  // Check if friend exists
           // Update review if provided in request body
               delete books[isbn].reviews.username;
-              return res.status(404).json({message: `Book review with the isbn ${isbn} for user ${username} deleted.`});
+              return res.status(404).json({message: `Deleted book review with the isbn ${isbn} for user ${username}.`});
       } else {
           // Respond if friend with specified email is not found
           res.send("Unable to find specified book!");
